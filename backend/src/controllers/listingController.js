@@ -3,6 +3,62 @@ const User = require('../models/User');
 const Notification = require('../models/Notification');
 const { logActivity } = require('../utils/logger');
 
+// Dynamic AI Spoilage and Shelf Life Risk Evaluator
+const calculateSpoilageRisk = (item) => {
+  if (!item) return null;
+  const now = Date.now();
+  const cookedTime = item.cookedTime ? new Date(item.cookedTime).getTime() : now - 2 * 3600 * 1000;
+  const expiryTime = item.expiryTime ? new Date(item.expiryTime).getTime() : now + 4 * 3600 * 1000;
+
+  const totalShelfLifeMs = Math.max(expiryTime - cookedTime, 1 * 3600 * 1000);
+  const elapsedMs = Math.max(0, now - cookedTime);
+  const remainingMs = expiryTime - now;
+  const remainingHours = Math.max(0, Number((remainingMs / (1000 * 60 * 60)).toFixed(1)));
+
+  let degradation = Math.min(100, Math.max(0, Math.round((elapsedMs / totalShelfLifeMs) * 100)));
+
+  const storageModifier = {
+    Frozen: -15,
+    Refrigerated: -5,
+    'Ambient / Room Temp': 10,
+    'Hot-Holding (>60°C)': 0,
+    Other: 5,
+  };
+  const modifier = storageModifier[item.storageCondition] || 0;
+  degradation = Math.min(100, Math.max(0, degradation + modifier));
+
+  let riskLevel = 'Low';
+  let recommendedAction = 'Optimal condition for immediate distribution.';
+  let badgeColor = 'green';
+
+  if (remainingHours <= 0 || degradation >= 90) {
+    riskLevel = 'Critical';
+    recommendedAction = 'Immediate consumption or safe disposal required. Expiry threshold reached.';
+    badgeColor = 'red';
+  } else if (remainingHours <= 3 || degradation >= 70) {
+    riskLevel = 'High';
+    recommendedAction = 'Urgent dispatch recommended within the next 1-2 hours.';
+    badgeColor = 'amber';
+  } else if (remainingHours <= 8 || degradation >= 45) {
+    riskLevel = 'Moderate';
+    recommendedAction = 'Safe for standard distribution window today.';
+    badgeColor = 'blue';
+  } else {
+    riskLevel = 'Low';
+    recommendedAction = 'Freshly prepared surplus. High preservation quality.';
+    badgeColor = 'green';
+  }
+
+  return {
+    riskLevel,
+    spoilagePercentage: degradation,
+    hoursRemaining: remainingHours,
+    storageFactor: item.storageCondition || 'Ambient / Room Temp',
+    recommendedAction,
+    badgeColor,
+  };
+};
+
 // @desc    Get all food listings with search, category, status, and geo filters
 // @route   GET /api/listings
 // @access  Public
