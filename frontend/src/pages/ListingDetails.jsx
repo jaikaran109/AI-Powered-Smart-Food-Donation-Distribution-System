@@ -5,6 +5,7 @@ import FreshnessBadge from '../components/listings/FreshnessBadge';
 import FoodMap from '../components/map/FoodMap';
 import Modal from '../components/common/Modal';
 import StarRating from '../components/reviews/StarRating';
+import AiMatchSection from '../components/ai/AiMatchSection';
 import { useAuth } from '../context/AuthContext';
 import {
   MapPin,
@@ -208,8 +209,14 @@ const ListingDetails = () => {
               </div>
             </div>
 
+            {/* Smart AI Matchmaker & NGO Recommendations */}
+            <AiMatchSection
+              listingId={listing._id}
+              onClaimClick={() => setClaimModalOpen(true)}
+            />
+
             {/* Location Map */}
-            <div className="bg-white-card" style={{ padding: '1.5rem' }}>
+            <div className="bg-white-card" style={{ padding: '1.5rem', marginTop: '1.5rem' }}>
               <h3 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                 <MapPin size={18} style={{ color: 'var(--emerald-600)' }} /> Pickup Location
               </h3>

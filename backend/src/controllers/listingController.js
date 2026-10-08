@@ -2,6 +2,7 @@ const FoodListing = require('../models/FoodListing');
 const User = require('../models/User');
 const Notification = require('../models/Notification');
 const { logActivity } = require('../utils/logger');
+const { getRecommendedNgosForListing } = require('../utils/aiMatcher');
 
 // Dynamic AI Spoilage and Shelf Life Risk Evaluator
 const calculateSpoilageRisk = (item) => {
@@ -403,3 +404,68 @@ exports.getMyDonations = async (req, res, next) => {
     next(error);
   }
 };
+
+// @desc    Get AI-ranked NGO recommendations for a food listing
+// @route   GET /api/listings/:id/ai-recommendations
+// @access  Public
+exports.getAiRecommendations = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const recommendations = await getRecommendedNgosForListing(id);
+
+    res.status(200).json({
+      success: true,
+      count: recommendations.length,
+      recommendations,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Send direct AI match notification to a specific NGO
+// @route   POST /api/listings/:id/notify-ngo/:ngoId
+// @access  Private (Donor, Admin)
+exports.notifyRecommendedNgo = async (req, res, next) => {
+  try {
+    const { id, ngoId } = req.params;
+    const listing = await FoodListing.findById(id);
+    if (!listing) {
+      return res.status(404).json({ success: false, message: 'Listing not found' });
+    }
+
+    const ngo = await User.findById(ngoId);
+    if (!ngo || ngo.role !== 'receiver') {
+      return res.status(404).json({ success: false, message: 'NGO receiver not found' });
+    }
+
+    const notification = await Notification.create({
+      recipientId: ngo._id,
+      senderId: req.user._id,
+      title: '🎯 AI Smart Match Alert!',
+      message: `${req.user.organizationName || req.user.name} matched with your NGO for surplus food: "${listing.title}" (${listing.quantity} ${listing.quantityUnit}). Claim now for priority express dispatch!`,
+      type: 'AI_MATCH_INVITATION',
+      link: `/listings/${listing._id}`,
+      relatedListingId: listing._id,
+    });
+
+    await logActivity({
+      userId: req.user._id,
+      userName: req.user.name,
+      userRole: req.user.role,
+      action: 'AI_NGO_NOTIFIED',
+      description: `Donor ${req.user.name} sent AI dispatch alert to NGO ${ngo.organizationName || ngo.name} for "${listing.title}"`,
+      entityType: 'FoodListing',
+      entityId: listing._id,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: `AI Match alert dispatched to ${ngo.organizationName || ngo.name}`,
+      notification,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+

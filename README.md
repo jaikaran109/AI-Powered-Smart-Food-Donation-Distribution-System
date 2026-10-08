@@ -36,9 +36,14 @@
 - **🗺️ Interactive Geospatial Maps:**
   - Dual explore view: Responsive Grid Feed and Interactive Leaflet (OpenStreetMap) radius map.
 
-- **🤖 Smart AI Demand & Spoilage Prediction Studio:**
-  - Food shelf-life degradation curve evaluation and cold chain storage recommendations.
-  - Geographic zone demand heatmaps and peak surplus timing forecast.
+- **🤖 Smart AI Matchmaker & Recommendation Engine (MCDA Model):**
+  - Multi-Criteria Decision Analysis (MCDA) matching algorithm to dynamically rank best-fit NGOs for any surplus batch:
+    - **Geospatial Proximity (35%):** Haversine distance & travel ETA optimization ($\le 3\text{km} \rightarrow 35\text{ pts}$).
+    - **Capacity & Demand Fit (30%):** Evaluates donation batch quantity vs NGO intake capacity ratio ($0.7 \le Q/C \le 1.3 \rightarrow 30\text{ pts}$).
+    - **Dietary & Preservation Fit (20%):** Cold chain requirements and dietary restrictions compatibility.
+    - **Reliability & Trust Index (15%):** Verified accreditation badge (+8 pts) & community historical rating (+7 pts).
+  - 1-Click Donor-to-NGO Instant Dispatch Alert routing.
+  - Spoilage and shelf-life degradation curve evaluation and cold chain storage safety recommendations.
 
 - **🛡️ Admin Control Tower & Analytics:**
   - Aggregate KPIs (Meals saved, kg food rescued, CO2 avoided, community value).

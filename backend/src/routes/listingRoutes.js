@@ -7,6 +7,8 @@ const {
   updateListing,
   deleteListing,
   getMyDonations,
+  getAiRecommendations,
+  notifyRecommendedNgo,
 } = require('../controllers/listingController');
 const { protect, authorize } = require('../middleware/auth');
 const { validate } = require('../middleware/validator');
@@ -17,6 +19,8 @@ const router = express.Router();
 router.get('/', getListings);
 router.get('/my-donations', protect, authorize('donor', 'admin'), getMyDonations);
 router.get('/:id', getListingById);
+router.get('/:id/ai-recommendations', getAiRecommendations);
+router.post('/:id/notify-ngo/:ngoId', protect, authorize('donor', 'admin'), notifyRecommendedNgo);
 
 // Create food listing
 router.post(

@@ -14,6 +14,7 @@ import {
   ShieldCheck,
   Building2,
   Eye,
+  Sparkles,
 } from 'lucide-react';
 
 const DonorDashboard = () => {
@@ -341,6 +342,20 @@ const DonorDashboard = () => {
 
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                       <FreshnessBadge expiryTime={item.expiryTime} urgencyScore={item.urgencyScore} />
+                      <Link
+                        to={`/listings/${item._id}`}
+                        className="btn btn-sm"
+                        style={{
+                          background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                          color: '#fff',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.3rem',
+                          fontWeight: 600,
+                        }}
+                      >
+                        <Sparkles size={13} /> AI Matches
+                      </Link>
                       <Link to={`/listings/${item._id}`} className="btn btn-secondary btn-sm">
                         View
                       </Link>
