@@ -1,36 +1,56 @@
 /* ==========================================================
-   SMART FOOD PLATFORM - CLEAN SLATE & EMERALD MODERN THEME
-   Professional, Minimalist, High-Performance Design System
+   SMART FOOD PLATFORM - CLEAN DUAL-THEME MODERN DESIGN SYSTEM
+   Supports Dynamic Dark Mode & Light Mode Instant Switching
    ========================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap');
 
-:root {
+:root,
+:root[data-theme='light'] {
+  /* Backgrounds */
   --bg-slate-50: #f8fafc;
   --bg-slate-100: #f1f5f9;
   --bg-white: #ffffff;
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-muted: #f1f5f9;
+  --bg-glass: rgba(255, 255, 255, 0.88);
   
+  /* Borders */
   --border-slate-200: #e2e8f0;
   --border-slate-300: #cbd5e1;
+  --border-subtle: #e2e8f0;
 
+  /* Typography */
   --text-slate-900: #0f172a;
   --text-slate-700: #334155;
   --text-slate-600: #475569;
   --text-slate-500: #64748b;
   --text-slate-400: #94a3b8;
+  --text-main: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --text-dim: #94a3b8;
+  --text-inverse: #ffffff;
 
-  /* Role & Brand Accents */
+  /* Primary (Emerald) */
   --emerald-500: #10b981;
   --emerald-600: #059669;
   --emerald-50: #ecfdf5;
   --emerald-100: #d1fae5;
   --emerald-200: #a7f3d0;
+  --primary: #059669;
+  --primary-500: #10b981;
+  --primary-light: #ecfdf5;
+  --primary-border: #a7f3d0;
 
+  /* Accent & Status Colors */
   --rose-500: #f43f5e;
   --rose-600: #e11d48;
   --rose-50: #fff1f2;
   --rose-100: #ffe4e6;
   --rose-200: #fecdd3;
+  --rose: #e11d48;
 
   --amber-500: #f59e0b;
   --amber-600: #d97706;
@@ -49,14 +69,96 @@
   --indigo-50: #eef2ff;
   --indigo-100: #e0e7ff;
   --indigo-200: #c7d2fe;
+  --accent: #6366f1;
+  --accent-light: #eef2ff;
 
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
 
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 9999px;
+
   --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ==========================================================
+   DARK THEME PALETTE
+   ========================================================== */
+:root[data-theme='dark'] {
+  /* Backgrounds */
+  --bg-slate-50: #0b1120;
+  --bg-slate-100: #1e293b;
+  --bg-white: #131d31;
+  --bg-main: #0b1120;
+  --bg-card: #131d31;
+  --bg-muted: #1e293b;
+  --bg-glass: rgba(19, 29, 49, 0.88);
+
+  /* Borders */
+  --border-slate-200: #26354a;
+  --border-slate-300: #334155;
+  --border-subtle: #26354a;
+
+  /* Typography */
+  --text-slate-900: #f8fafc;
+  --text-slate-700: #e2e8f0;
+  --text-slate-600: #cbd5e1;
+  --text-slate-500: #94a3b8;
+  --text-slate-400: #64748b;
+  --text-main: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-dim: #64748b;
+  --text-inverse: #0b1120;
+
+  /* Primary (Emerald) in Dark */
+  --emerald-500: #10b981;
+  --emerald-600: #34d399;
+  --emerald-50: rgba(16, 185, 129, 0.15);
+  --emerald-100: rgba(16, 185, 129, 0.25);
+  --emerald-200: rgba(16, 185, 129, 0.35);
+  --primary: #10b981;
+  --primary-500: #10b981;
+  --primary-light: rgba(16, 185, 129, 0.15);
+  --primary-border: rgba(16, 185, 129, 0.35);
+
+  /* Accents in Dark */
+  --rose-500: #fb7185;
+  --rose-600: #f43f5e;
+  --rose-50: rgba(244, 63, 94, 0.15);
+  --rose-100: rgba(244, 63, 94, 0.25);
+  --rose-200: rgba(244, 63, 94, 0.35);
+  --rose: #f43f5e;
+
+  --amber-500: #fbbf24;
+  --amber-600: #f59e0b;
+  --amber-50: rgba(245, 158, 11, 0.15);
+  --amber-100: rgba(245, 158, 11, 0.25);
+  --amber-200: rgba(245, 158, 11, 0.35);
+
+  --blue-500: #60a5fa;
+  --blue-600: #3b82f6;
+  --blue-50: rgba(59, 130, 246, 0.15);
+  --blue-100: rgba(59, 130, 246, 0.25);
+  --blue-200: rgba(59, 130, 246, 0.35);
+
+  --indigo-500: #818cf8;
+  --indigo-600: #6366f1;
+  --indigo-50: rgba(99, 102, 241, 0.15);
+  --indigo-100: rgba(99, 102, 241, 0.25);
+  --indigo-200: rgba(99, 102, 241, 0.35);
+  --accent: #818cf8;
+  --accent-light: rgba(99, 102, 241, 0.15);
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
 }
 
 *, *::before, *::after {
@@ -72,6 +174,7 @@ body {
   min-height: 100vh;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -99,16 +202,30 @@ button, input, select, textarea {
   padding: 0 1.5rem;
 }
 
-/* Cards */
-.bg-white-card {
-  background: var(--bg-white);
-  border: 1px solid var(--border-slate-200);
-  border-radius: 12px;
+.section-py {
+  padding: 3rem 0;
+}
+
+/* Cards & Containers */
+.bg-white-card,
+.card {
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   transition: all 0.2s ease;
 }
 
-.bg-white-card:hover {
+.card-glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.bg-white-card:hover,
+.card:hover {
   box-shadow: var(--shadow-md);
   border-color: var(--border-slate-300);
 }
@@ -122,7 +239,7 @@ button, input, select, textarea {
   font-weight: 600;
   font-size: 0.88rem;
   padding: 0.6rem 1.15rem;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   border: 1px solid transparent;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -134,7 +251,7 @@ button, input, select, textarea {
   color: #ffffff;
 }
 .btn-primary:hover {
-  background: #047857;
+  opacity: 0.92;
   transform: translateY(-1px);
 }
 
@@ -143,7 +260,7 @@ button, input, select, textarea {
   color: #ffffff;
 }
 .btn-rose:hover {
-  background: #be123c;
+  opacity: 0.92;
 }
 
 .btn-amber {
@@ -151,7 +268,7 @@ button, input, select, textarea {
   color: #ffffff;
 }
 .btn-amber:hover {
-  background: #b45309;
+  opacity: 0.92;
 }
 
 .btn-blue {
@@ -159,29 +276,38 @@ button, input, select, textarea {
   color: #ffffff;
 }
 .btn-blue:hover {
-  background: #1d4ed8;
+  opacity: 0.92;
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: #ffffff;
+}
+.btn-accent:hover {
+  opacity: 0.92;
 }
 
 .btn-secondary {
-  background: var(--bg-white);
-  color: var(--text-slate-700);
-  border: 1px solid var(--border-slate-200);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
 }
 .btn-secondary:hover {
-  background: var(--bg-slate-100);
+  background: var(--bg-muted);
   border-color: var(--border-slate-300);
+  color: var(--text-main);
 }
 
 .btn-sm {
   padding: 0.35rem 0.75rem;
   font-size: 0.8rem;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
 }
 
 .btn-lg {
   padding: 0.75rem 1.5rem;
   font-size: 0.95rem;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
 }
 
 /* Form Controls */
@@ -195,16 +321,16 @@ button, input, select, textarea {
 .form-label {
   font-size: 0.82rem;
   font-weight: 600;
-  color: var(--text-slate-700);
+  color: var(--text-secondary);
 }
 
 .form-control {
   width: 100%;
   padding: 0.6rem 0.85rem;
-  background: var(--bg-white);
-  color: var(--text-slate-900);
-  border: 1px solid var(--border-slate-200);
-  border-radius: 8px;
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
   font-size: 0.9rem;
   outline: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
@@ -212,7 +338,7 @@ button, input, select, textarea {
 
 .form-control:focus {
   border-color: var(--emerald-500);
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.18);
 }
 
 /* Badges */
@@ -223,7 +349,7 @@ button, input, select, textarea {
   font-size: 0.72rem;
   font-weight: 700;
   padding: 0.2rem 0.6rem;
-  border-radius: 9999px;
+  border-radius: var(--radius-full);
 }
 
 .badge-emerald { background: var(--emerald-50); color: var(--emerald-600); border: 1px solid var(--emerald-200); }
@@ -231,7 +357,7 @@ button, input, select, textarea {
 .badge-amber { background: var(--amber-50); color: var(--amber-600); border: 1px solid var(--amber-200); }
 .badge-blue { background: var(--blue-50); color: var(--blue-600); border: 1px solid var(--blue-200); }
 .badge-indigo { background: var(--indigo-50); color: var(--indigo-600); border: 1px solid var(--indigo-200); }
-.badge-slate { background: var(--bg-slate-100); color: var(--text-slate-600); border: 1px solid var(--border-slate-200); }
+.badge-slate { background: var(--bg-muted); color: var(--text-secondary); border: 1px solid var(--border-subtle); }
 
 /* Grids */
 .grid-1 { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
@@ -246,8 +372,8 @@ button, input, select, textarea {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.5);
-  backdrop-filter: blur(4px);
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -256,9 +382,10 @@ button, input, select, textarea {
 }
 
 .modal-content {
-  background: #ffffff;
-  border: 1px solid var(--border-slate-200);
-  border-radius: 14px;
+  background: var(--bg-card);
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
   max-width: 540px;
   width: 100%;
   max-height: 90vh;

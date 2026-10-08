@@ -94,11 +94,19 @@ const Home = () => {
     },
   ];
 
-  const handleRoleSelect = (roleId) => {
+  const handleRoleSelect = async (roleId) => {
     if (roleId === 'volunteer') {
       navigate('/listings');
     } else {
-      demoLogin(roleId);
+      try {
+        const res = await demoLogin(roleId);
+        if (roleId === 'donor') navigate('/donor-dashboard');
+        else if (roleId === 'receiver') navigate('/receiver-dashboard');
+        else if (roleId === 'admin') navigate('/admin-dashboard');
+        else navigate('/');
+      } catch (err) {
+        navigate('/login');
+      }
     }
   };
 
