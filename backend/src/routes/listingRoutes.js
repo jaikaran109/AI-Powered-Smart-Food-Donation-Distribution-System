@@ -18,9 +18,9 @@ const router = express.Router();
 // Public explore & details
 router.get('/', getListings);
 router.get('/my-donations', protect, authorize('donor', 'admin'), getMyDonations);
-router.get('/:id', getListingById);
 router.get('/:id/ai-recommendations', getAiRecommendations);
 router.post('/:id/notify-ngo/:ngoId', protect, authorize('donor', 'admin'), notifyRecommendedNgo);
+router.get('/:id', getListingById);
 
 // Create food listing
 router.post(
