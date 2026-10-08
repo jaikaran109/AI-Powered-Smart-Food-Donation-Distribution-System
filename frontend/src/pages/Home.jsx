@@ -113,7 +113,7 @@ const Home = () => {
   return (
     <div style={{ background: 'var(--bg-slate-50)', minHeight: '100vh' }}>
       {/* 1. HERO HEADER */}
-      <section style={{ padding: '3.5rem 0 2.5rem 0', textAlign: 'center', background: '#ffffff', borderBottom: '1px solid var(--border-slate-200)' }}>
+      <section style={{ padding: '3.5rem 0 2.5rem 0', textAlign: 'center', background: 'var(--bg-card)', borderBottom: '1px solid var(--border-slate-200)' }}>
         <div className="container" style={{ maxWidth: '840px' }}>
           <div
             style={{
@@ -219,7 +219,7 @@ const Home = () => {
       </section>
 
       {/* 3. IMPACT METRICS */}
-      <section style={{ padding: '2.5rem 0', background: '#ffffff', borderTop: '1px solid var(--border-slate-200)', borderBottom: '1px solid var(--border-slate-200)' }}>
+      <section style={{ padding: '2.5rem 0', background: 'var(--bg-card)', borderTop: '1px solid var(--border-slate-200)', borderBottom: '1px solid var(--border-slate-200)' }}>
         <div className="container">
           <div className="grid-4">
             <StatCard
@@ -307,7 +307,7 @@ const Home = () => {
       </section>
 
       {/* 5. LIVE SURPLUS FOOD FEED */}
-      <section style={{ padding: '3rem 0', background: '#ffffff', borderTop: '1px solid var(--border-slate-200)' }}>
+      <section style={{ padding: '3rem 0', background: 'var(--bg-card)', borderTop: '1px solid var(--border-slate-200)' }}>
         <div className="container">
           <div className="flex-between" style={{ marginBottom: '1.75rem', flexWrap: 'wrap' }}>
             <div>

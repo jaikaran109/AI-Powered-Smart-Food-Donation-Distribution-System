@@ -167,7 +167,7 @@ const ListingDetails = () => {
                   alignItems: 'center',
                 }}
               >
-                <span className="badge badge-emerald" style={{ background: '#ffffff', color: 'var(--emerald-600)' }}>
+                <span className="badge badge-emerald" style={{ background: 'var(--bg-card)', color: 'var(--emerald-600)' }}>
                   {listing.status}
                 </span>
                 <FreshnessBadge expiryTime={listing.expiryTime} urgencyScore={listing.urgencyScore} />
