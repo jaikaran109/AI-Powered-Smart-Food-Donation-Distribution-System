@@ -17,6 +17,10 @@ import {
   Trash2,
   Activity,
   Layers,
+  Sparkles,
+  ArrowUpRight,
+  TrendingUp,
+  AlertCircle,
 } from 'lucide-react';
 
 const AdminDashboard = () => {
@@ -103,52 +107,105 @@ const AdminDashboard = () => {
     return matchesSearch && matchesRole;
   });
 
+  const getActionMeta = (action) => {
+    switch (action) {
+      case 'NGO_VERIFIED':
+        return { label: 'NGO Verified', badgeClass: 'badge-emerald', Icon: ShieldCheck };
+      case 'PICKUP_REQUESTED':
+        return { label: 'Pickup Requested', badgeClass: 'badge-amber', Icon: Truck };
+      case 'LISTING_CREATED':
+        return { label: 'Listing Created', badgeClass: 'badge-emerald', Icon: UtensilsCrossed };
+      case 'USER_LOGIN':
+        return { label: 'User Login', badgeClass: 'badge-blue', Icon: Users };
+      case 'USER_REGISTERED':
+        return { label: 'User Registered', badgeClass: 'badge-indigo', Icon: Building2 };
+      case 'LISTING_DELETED':
+        return { label: 'Listing Removed', badgeClass: 'badge-rose', Icon: Trash2 };
+      case 'AI_NGO_NOTIFIED':
+        return { label: 'AI Match Alert', badgeClass: 'badge-indigo', Icon: Sparkles };
+      default:
+        return { label: action?.replace(/_/g, ' ') || 'Activity', badgeClass: 'badge-slate', Icon: Activity };
+    }
+  };
+
+  const getStatusMeta = (status) => {
+    switch (status) {
+      case 'Available':
+        return { badgeClass: 'badge-emerald', Icon: CheckCircle2 };
+      case 'Requested':
+        return { badgeClass: 'badge-amber', Icon: Clock };
+      case 'Accepted':
+        return { badgeClass: 'badge-indigo', Icon: Truck };
+      case 'Picked Up':
+        return { badgeClass: 'badge-blue', Icon: Truck };
+      case 'Delivered':
+        return { badgeClass: 'badge-emerald', Icon: Heart };
+      case 'Expired':
+      case 'Cancelled':
+        return { badgeClass: 'badge-rose', Icon: XCircle };
+      default:
+        return { badgeClass: 'badge-slate', Icon: Activity };
+    }
+  };
+
+  const totalListingCount = listings.length || 1;
+
   return (
     <div className="section-py">
       <div className="container">
         {/* Admin Header */}
         <div
-          className="card card-glass"
+          className="card"
           style={{
             padding: '2rem',
-            marginBottom: '2.5rem',
+            marginBottom: '2rem',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             gap: '1.5rem',
             borderLeft: '5px solid var(--rose-500)',
+            background: 'linear-gradient(135deg, var(--bg-card) 0%, rgba(244, 63, 94, 0.04) 100%)',
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
             <div
               style={{
-                width: '64px',
-                height: '64px',
+                width: '60px',
+                height: '60px',
                 borderRadius: '16px',
                 background: 'rgba(244, 63, 94, 0.15)',
                 color: 'var(--rose-500)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                boxShadow: '0 4px 14px rgba(244, 63, 94, 0.2)',
               }}
             >
               <ShieldCheck size={32} />
             </div>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <h1 style={{ fontSize: '1.8rem', fontWeight: 800 }}>Admin Control Tower</h1>
-                <span className="badge badge-rose">Master Moderator</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
+                <h1 style={{ fontSize: '1.65rem', fontWeight: 800, margin: 0, color: 'var(--text-main)' }}>
+                  Admin Control Tower
+                </h1>
+                <span className="badge badge-rose" style={{ fontSize: '0.72rem' }}>
+                  Platform Governance
+                </span>
               </div>
-              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>
-                Platform governance, NGO verification verification, listings moderation, and system audit trail.
+              <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: '0.25rem', marginBottom: 0 }}>
+                Real-time monitoring, NGO accreditation verification, listings moderation, and system audit trail.
               </p>
             </div>
           </div>
 
           <div style={{ display: 'flex', gap: '0.5rem' }}>
-            <button onClick={loadData} className="btn btn-secondary btn-sm">
-              <Activity size={15} /> Refresh Data
+            <button
+              onClick={loadData}
+              className="btn btn-secondary btn-sm"
+              style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontWeight: 600 }}
+            >
+              <Activity size={15} /> Refresh Analytics
             </button>
           </div>
         </div>
@@ -158,14 +215,14 @@ const AdminDashboard = () => {
           <StatCard
             title="Total Registered Donors"
             value={stats?.totalDonors || 0}
-            subtitle="Commercial & Individual"
+            subtitle="Commercial & Individual Kitchens"
             icon={Building2}
             color="emerald"
           />
           <StatCard
             title="Verified NGOs"
             value={stats?.verifiedNgos || 0}
-            subtitle="Out of registered NGO hubs"
+            subtitle="Accredited food relief hubs"
             icon={ShieldCheck}
             color="cyan"
           />
@@ -173,14 +230,14 @@ const AdminDashboard = () => {
             title="Total Food Rescued"
             value={stats?.totalFoodKg || 5000}
             suffix=" kg"
-            subtitle="Meals served: ~12,500"
+            subtitle="Community nutrition delivered"
             icon={Heart}
             color="indigo"
           />
           <StatCard
             title="Completed Pickups"
             value={stats?.completedPickups || 0}
-            subtitle="Verified food deliveries"
+            subtitle="Verified food distribution cycles"
             icon={Truck}
             color="amber"
           />
@@ -191,16 +248,17 @@ const AdminDashboard = () => {
           style={{
             display: 'flex',
             gap: '0.5rem',
-            borderBottom: '2px solid var(--border-subtle)',
+            borderBottom: '2px solid var(--border-color)',
             marginBottom: '1.75rem',
+            overflowX: 'auto',
           }}
         >
           <button
             onClick={() => setActiveTab('overview')}
             style={{
-              padding: '0.75rem 1.5rem',
+              padding: '0.75rem 1.4rem',
               fontWeight: 700,
-              fontSize: '0.95rem',
+              fontSize: '0.92rem',
               border: 'none',
               background: 'none',
               cursor: 'pointer',
@@ -209,7 +267,9 @@ const AdminDashboard = () => {
               marginBottom: '-2px',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.4rem',
+              gap: '0.45rem',
+              whiteSpace: 'nowrap',
+              transition: 'all 0.15s ease',
             }}
           >
             <BarChart3 size={17} /> Category Analytics
@@ -218,9 +278,9 @@ const AdminDashboard = () => {
           <button
             onClick={() => setActiveTab('users')}
             style={{
-              padding: '0.75rem 1.5rem',
+              padding: '0.75rem 1.4rem',
               fontWeight: 700,
-              fontSize: '0.95rem',
+              fontSize: '0.92rem',
               border: 'none',
               background: 'none',
               cursor: 'pointer',
@@ -229,7 +289,9 @@ const AdminDashboard = () => {
               marginBottom: '-2px',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.4rem',
+              gap: '0.45rem',
+              whiteSpace: 'nowrap',
+              transition: 'all 0.15s ease',
             }}
           >
             <Users size={17} /> User Management ({users.length})
@@ -238,9 +300,9 @@ const AdminDashboard = () => {
           <button
             onClick={() => setActiveTab('listings')}
             style={{
-              padding: '0.75rem 1.5rem',
+              padding: '0.75rem 1.4rem',
               fontWeight: 700,
-              fontSize: '0.95rem',
+              fontSize: '0.92rem',
               border: 'none',
               background: 'none',
               cursor: 'pointer',
@@ -249,7 +311,9 @@ const AdminDashboard = () => {
               marginBottom: '-2px',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.4rem',
+              gap: '0.45rem',
+              whiteSpace: 'nowrap',
+              transition: 'all 0.15s ease',
             }}
           >
             <Layers size={17} /> Listing Moderation ({listings.length})
@@ -258,9 +322,9 @@ const AdminDashboard = () => {
           <button
             onClick={() => setActiveTab('logs')}
             style={{
-              padding: '0.75rem 1.5rem',
+              padding: '0.75rem 1.4rem',
               fontWeight: 700,
-              fontSize: '0.95rem',
+              fontSize: '0.92rem',
               border: 'none',
               background: 'none',
               cursor: 'pointer',
@@ -269,52 +333,172 @@ const AdminDashboard = () => {
               marginBottom: '-2px',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.4rem',
+              gap: '0.45rem',
+              whiteSpace: 'nowrap',
+              transition: 'all 0.15s ease',
             }}
           >
             <Activity size={17} /> Audit Logs ({activityLogs.length})
           </button>
         </div>
 
-        {/* TAB 1: CATEGORY ANALYTICS */}
+        {/* TAB 1: CATEGORY ANALYTICS & STATUS DISTRIBUTION */}
         {activeTab === 'overview' && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
-            <div className="card">
-              <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '1.25rem' }}>
-                Food Donation Volume by Category
-              </h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-                {stats?.categoryBreakdown?.map((cat, i) => (
-                  <div key={i}>
-                    <div className="flex-between" style={{ fontSize: '0.85rem', marginBottom: '0.25rem' }}>
-                      <span style={{ fontWeight: 600 }}>{cat._id || 'Uncategorized'}</span>
-                      <span style={{ color: 'var(--text-muted)' }}>{cat.count} listings ({cat.totalQty} units)</span>
-                    </div>
-                    <div style={{ height: '8px', background: 'var(--bg-muted)', borderRadius: '4px', overflow: 'hidden' }}>
-                      <div
-                        style={{
-                          height: '100%',
-                          width: `${Math.min(100, (cat.count / (listings.length || 1)) * 100)}%`,
-                          background: 'linear-gradient(90deg, var(--primary-500), var(--accent-500))',
-                        }}
-                      />
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '1.5rem' }}>
+            {/* Left Card: Category Breakdown */}
+            <div className="card" style={{ padding: '1.5rem', borderRadius: 'var(--radius-lg)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <div
+                    style={{
+                      width: '34px',
+                      height: '34px',
+                      borderRadius: '8px',
+                      background: 'rgba(16, 185, 129, 0.15)',
+                      color: '#10b981',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <UtensilsCrossed size={18} />
+                  </div>
+                  <div>
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0, color: 'var(--text-main)' }}>
+                      Food Volume by Category
+                    </h3>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                      Surplus inventory distribution
                     </div>
                   </div>
-                ))}
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                {stats?.categoryBreakdown && stats.categoryBreakdown.length > 0 ? (
+                  stats.categoryBreakdown.map((cat, i) => {
+                    const percentage = Math.min(100, Math.round((cat.count / totalListingCount) * 100));
+                    return (
+                      <div
+                        key={i}
+                        style={{
+                          background: 'var(--bg-muted)',
+                          padding: '0.9rem 1rem',
+                          borderRadius: 'var(--radius-md)',
+                          border: '1px solid var(--border-color)',
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                          <span style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-main)' }}>
+                            {cat._id || 'General Surplus'}
+                          </span>
+                          <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-muted)' }}>
+                            <strong style={{ color: 'var(--text-main)' }}>{cat.count} listings</strong> ({cat.totalQty} units)
+                          </span>
+                        </div>
+
+                        {/* Progress bar container */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                          <div
+                            style={{
+                              flex: 1,
+                              height: '8px',
+                              background: 'var(--border-color)',
+                              borderRadius: '6px',
+                              overflow: 'hidden',
+                            }}
+                          >
+                            <div
+                              style={{
+                                height: '100%',
+                                width: `${Math.max(8, percentage)}%`,
+                                background: 'linear-gradient(90deg, #10b981, #06b6d4)',
+                                borderRadius: '6px',
+                                transition: 'width 0.4s ease',
+                              }}
+                            />
+                          </div>
+                          <span style={{ fontSize: '0.72rem', fontWeight: 800, color: '#10b981', minWidth: '32px', textAlign: 'right' }}>
+                            {percentage}%
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div style={{ padding: '2rem 1rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                    No food category breakdown data available yet.
+                  </div>
+                )}
               </div>
             </div>
 
-            <div className="card">
-              <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '1.25rem' }}>
-                Donation Lifecycle Status Distribution
-              </h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
-                {stats?.statusBreakdown?.map((st, i) => (
-                  <div key={i} className="flex-between" style={{ padding: '0.6rem 0.85rem', background: 'var(--bg-main)', borderRadius: 'var(--radius-md)' }}>
-                    <span style={{ fontWeight: 700 }}>{st._id}</span>
-                    <span className="badge badge-indigo">{st.count} listings</span>
+            {/* Right Card: Lifecycle Status Distribution */}
+            <div className="card" style={{ padding: '1.5rem', borderRadius: 'var(--radius-lg)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <div
+                    style={{
+                      width: '34px',
+                      height: '34px',
+                      borderRadius: '8px',
+                      background: 'rgba(99, 102, 241, 0.15)',
+                      color: '#6366f1',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Layers size={18} />
                   </div>
-                ))}
+                  <div>
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0, color: 'var(--text-main)' }}>
+                      Donation Lifecycle Status
+                    </h3>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                      Active distribution pipeline
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                {stats?.statusBreakdown && stats.statusBreakdown.length > 0 ? (
+                  stats.statusBreakdown.map((st, i) => {
+                    const meta = getStatusMeta(st._id);
+                    const StatusIcon = meta.Icon;
+                    return (
+                      <div
+                        key={i}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '0.85rem 1rem',
+                          background: 'var(--bg-muted)',
+                          borderRadius: 'var(--radius-md)',
+                          border: '1px solid var(--border-color)',
+                          transition: 'all 0.15s ease',
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                          <StatusIcon size={16} style={{ color: 'var(--text-muted)' }} />
+                          <span style={{ fontWeight: 700, fontSize: '0.9rem', color: 'var(--text-main)' }}>
+                            {st._id}
+                          </span>
+                        </div>
+
+                        <span className={`badge ${meta.badgeClass}`} style={{ fontSize: '0.75rem', fontWeight: 700, padding: '0.25rem 0.65rem' }}>
+                          {st.count} {st.count === 1 ? 'listing' : 'listings'}
+                        </span>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div style={{ padding: '2rem 1rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+                    No status distribution data recorded yet.
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -322,10 +506,10 @@ const AdminDashboard = () => {
 
         {/* TAB 2: USER MANAGEMENT */}
         {activeTab === 'users' && (
-          <div className="card">
+          <div className="card" style={{ padding: '1.5rem', borderRadius: 'var(--radius-lg)' }}>
             {/* Filters */}
-            <div className="flex-between" style={{ marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-              <div style={{ position: 'relative', flex: '1 1 250px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+              <div style={{ position: 'relative', flex: '1 1 280px' }}>
                 <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-dim)' }} />
                 <input
                   type="text"
@@ -343,8 +527,8 @@ const AdminDashboard = () => {
                 value={userRoleFilter}
                 onChange={(e) => setUserRoleFilter(e.target.value)}
               >
-                <option value="">All Roles</option>
-                <option value="donor">Donors</option>
+                <option value="">All User Roles</option>
+                <option value="donor">Food Donors</option>
                 <option value="receiver">NGOs / Receivers</option>
                 <option value="admin">Administrators</option>
               </select>
@@ -352,59 +536,63 @@ const AdminDashboard = () => {
 
             {/* Table */}
             <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.88rem' }}>
                 <thead>
-                  <tr style={{ borderBottom: '1px solid var(--border-subtle)', textAlign: 'left', color: 'var(--text-muted)' }}>
-                    <th style={{ padding: '0.75rem' }}>User / Organization</th>
-                    <th style={{ padding: '0.75rem' }}>Role</th>
-                    <th style={{ padding: '0.75rem' }}>Verification</th>
-                    <th style={{ padding: '0.75rem' }}>Status</th>
-                    <th style={{ padding: '0.75rem', textAlign: 'right' }}>Actions</th>
+                  <tr style={{ borderBottom: '1px solid var(--border-color)', textAlign: 'left', color: 'var(--text-muted)' }}>
+                    <th style={{ padding: '0.85rem 1rem', fontWeight: 700 }}>User / Organization</th>
+                    <th style={{ padding: '0.85rem 1rem', fontWeight: 700 }}>Role</th>
+                    <th style={{ padding: '0.85rem 1rem', fontWeight: 700 }}>Accreditation</th>
+                    <th style={{ padding: '0.85rem 1rem', fontWeight: 700 }}>Account Status</th>
+                    <th style={{ padding: '0.85rem 1rem', textAlign: 'right', fontWeight: 700 }}>Moderation</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredUsers.map((u) => (
-                    <tr key={u._id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                      <td style={{ padding: '0.75rem' }}>
-                        <div style={{ fontWeight: 700 }}>{u.name}</div>
-                        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                    <tr
+                      key={u._id}
+                      style={{
+                        borderBottom: '1px solid var(--border-color)',
+                        transition: 'background-color 0.15s ease',
+                      }}
+                    >
+                      <td style={{ padding: '0.85rem 1rem' }}>
+                        <div style={{ fontWeight: 700, color: 'var(--text-main)' }}>{u.name}</div>
+                        <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                           {u.organizationName || u.email}
                         </div>
                       </td>
-                      <td style={{ padding: '0.75rem' }}>
+                      <td style={{ padding: '0.85rem 1rem' }}>
                         <span className={`badge badge-${u.role === 'admin' ? 'rose' : u.role === 'donor' ? 'emerald' : 'indigo'}`}>
                           {u.role}
                         </span>
                       </td>
-                      <td style={{ padding: '0.75rem' }}>
+                      <td style={{ padding: '0.85rem 1rem' }}>
                         {u.role === 'receiver' ? (
                           u.isVerified ? (
-                            <span className="badge badge-emerald">✓ Verified</span>
+                            <span className="badge badge-emerald">✓ Verified NGO</span>
                           ) : (
-                            <div style={{ display: 'flex', gap: '0.3rem' }}>
-                              <button
-                                onClick={() => handleVerifyNgo(u._id, 'verified')}
-                                className="btn btn-primary btn-sm"
-                                style={{ padding: '0.2rem 0.5rem', fontSize: '0.75rem' }}
-                              >
-                                Approve NGO
-                              </button>
-                            </div>
+                            <button
+                              onClick={() => handleVerifyNgo(u._id, 'verified')}
+                              className="btn btn-primary btn-sm"
+                              style={{ padding: '0.25rem 0.6rem', fontSize: '0.75rem' }}
+                            >
+                              Approve NGO
+                            </button>
                           )
                         ) : (
-                          <span style={{ color: 'var(--text-dim)', fontSize: '0.8rem' }}>Auto-verified</span>
+                          <span style={{ color: 'var(--text-dim)', fontSize: '0.8rem' }}>Standard</span>
                         )}
                       </td>
-                      <td style={{ padding: '0.75rem' }}>
+                      <td style={{ padding: '0.85rem 1rem' }}>
                         <span className={`badge ${u.isActive ? 'badge-emerald' : 'badge-rose'}`}>
                           {u.isActive ? 'Active' : 'Suspended'}
                         </span>
                       </td>
-                      <td style={{ padding: '0.75rem', textAlign: 'right' }}>
+                      <td style={{ padding: '0.85rem 1rem', textAlign: 'right' }}>
                         <button
                           onClick={() => handleToggleUserStatus(u._id, u.isActive)}
-                          className={`btn ${u.isActive ? 'btn-danger' : 'btn-primary'} btn-sm`}
-                          style={{ padding: '0.3rem 0.7rem', fontSize: '0.8rem' }}
+                          className={`btn ${u.isActive ? 'btn-secondary' : 'btn-primary'} btn-sm`}
+                          style={{ padding: '0.3rem 0.75rem', fontSize: '0.78rem' }}
                         >
                           {u.isActive ? 'Deactivate' : 'Activate'}
                         </button>
@@ -419,38 +607,65 @@ const AdminDashboard = () => {
 
         {/* TAB 3: LISTING MODERATION */}
         {activeTab === 'listings' && (
-          <div className="card">
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '1rem' }}>
-              All Platform Food Listings
-            </h3>
+          <div className="card" style={{ padding: '1.5rem', borderRadius: 'var(--radius-lg)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem' }}>
+              <div>
+                <h3 style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0, color: 'var(--text-main)' }}>
+                  Platform Food Listings
+                </h3>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                  Active and historical donation batches
+                </div>
+              </div>
+            </div>
+
             <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.88rem' }}>
                 <thead>
-                  <tr style={{ borderBottom: '1px solid var(--border-subtle)', textAlign: 'left', color: 'var(--text-muted)' }}>
-                    <th style={{ padding: '0.75rem' }}>Listing Title</th>
-                    <th style={{ padding: '0.75rem' }}>Donor</th>
-                    <th style={{ padding: '0.75rem' }}>Quantity</th>
-                    <th style={{ padding: '0.75rem' }}>Status</th>
-                    <th style={{ padding: '0.75rem', textAlign: 'right' }}>Moderation</th>
+                  <tr style={{ borderBottom: '1px solid var(--border-color)', textAlign: 'left', color: 'var(--text-muted)' }}>
+                    <th style={{ padding: '0.85rem 1rem', fontWeight: 700 }}>Listing Title</th>
+                    <th style={{ padding: '0.85rem 1rem', fontWeight: 700 }}>Donor Hub</th>
+                    <th style={{ padding: '0.85rem 1rem', fontWeight: 700 }}>Quantity</th>
+                    <th style={{ padding: '0.85rem 1rem', fontWeight: 700 }}>Status</th>
+                    <th style={{ padding: '0.85rem 1rem', textAlign: 'right', fontWeight: 700 }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {listings.map((l) => (
-                    <tr key={l._id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                      <td style={{ padding: '0.75rem' }}>
-                        <div style={{ fontWeight: 700 }}>{l.title}</div>
-                        <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{l.category} • {l.dietaryType}</div>
+                    <tr
+                      key={l._id}
+                      style={{
+                        borderBottom: '1px solid var(--border-color)',
+                        transition: 'background-color 0.15s ease',
+                      }}
+                    >
+                      <td style={{ padding: '0.85rem 1rem' }}>
+                        <div style={{ fontWeight: 700, color: 'var(--text-main)' }}>{l.title}</div>
+                        <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                          {l.category} • {l.dietaryType}
+                        </div>
                       </td>
-                      <td style={{ padding: '0.75rem' }}>{l.donorOrg || l.donorName}</td>
-                      <td style={{ padding: '0.75rem' }}>{l.quantity} {l.quantityUnit}</td>
-                      <td style={{ padding: '0.75rem' }}>
-                        <span className="badge badge-emerald">{l.status}</span>
+                      <td style={{ padding: '0.85rem 1rem', color: 'var(--text-main)' }}>{l.donorOrg || l.donorName}</td>
+                      <td style={{ padding: '0.85rem 1rem', fontWeight: 600 }}>{l.quantity} {l.quantityUnit}</td>
+                      <td style={{ padding: '0.85rem 1rem' }}>
+                        <span className={`badge ${getStatusMeta(l.status).badgeClass}`}>
+                          {l.status}
+                        </span>
                       </td>
-                      <td style={{ padding: '0.75rem', textAlign: 'right' }}>
+                      <td style={{ padding: '0.85rem 1rem', textAlign: 'right' }}>
                         <button
                           onClick={() => handleDeleteListing(l._id)}
-                          className="btn btn-danger btn-sm"
-                          style={{ padding: '0.3rem 0.7rem', fontSize: '0.8rem' }}
+                          className="btn btn-sm"
+                          style={{
+                            background: 'rgba(244, 63, 94, 0.15)',
+                            color: 'var(--rose-500)',
+                            border: '1px solid rgba(244, 63, 94, 0.3)',
+                            padding: '0.3rem 0.75rem',
+                            fontSize: '0.78rem',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.35rem',
+                          }}
                         >
                           <Trash2 size={13} /> Remove
                         </button>
@@ -465,35 +680,108 @@ const AdminDashboard = () => {
 
         {/* TAB 4: AUDIT ACTIVITY LOGS */}
         {activeTab === 'logs' && (
-          <div className="card">
-            <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '1.25rem' }}>
-              Chronological Audit Trail
-            </h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-              {activityLogs.map((log) => (
+          <div className="card" style={{ padding: '1.5rem', borderRadius: 'var(--radius-lg)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.25rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                 <div
-                  key={log._id}
                   style={{
+                    width: '34px',
+                    height: '34px',
+                    borderRadius: '8px',
+                    background: 'rgba(244, 63, 94, 0.15)',
+                    color: 'var(--rose-500)',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '0.65rem 0.85rem',
-                    background: 'var(--bg-main)',
-                    borderRadius: 'var(--radius-sm)',
-                    fontSize: '0.85rem',
+                    justifyContent: 'center',
                   }}
                 >
-                  <div>
-                    <span className="badge badge-indigo" style={{ fontSize: '0.7rem', marginRight: '0.5rem' }}>
-                      {log.action}
-                    </span>
-                    <span style={{ color: 'var(--text-main)' }}>{log.description}</span>
-                  </div>
-                  <span style={{ color: 'var(--text-dim)', fontSize: '0.75rem', whiteSpace: 'nowrap' }}>
-                    {new Date(log.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </span>
+                  <Activity size={18} />
                 </div>
-              ))}
+                <div>
+                  <h3 style={{ fontSize: '1.1rem', fontWeight: 800, margin: 0, color: 'var(--text-main)' }}>
+                    Chronological Audit Trail
+                  </h3>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                    Tamper-evident platform activity record ({activityLogs.length} events)
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {activityLogs && activityLogs.length > 0 ? (
+                activityLogs.map((log) => {
+                  const meta = getActionMeta(log.action);
+                  const ActionIcon = meta.Icon;
+                  return (
+                    <div
+                      key={log._id}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: '0.9rem 1.15rem',
+                        background: 'var(--bg-muted)',
+                        border: '1px solid var(--border-color)',
+                        borderRadius: 'var(--radius-md)',
+                        fontSize: '0.86rem',
+                        flexWrap: 'wrap',
+                        gap: '0.75rem',
+                        transition: 'all 0.15s ease',
+                      }}
+                    >
+                      {/* Left: Action Badge + Description */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flex: '1 1 300px' }}>
+                        <span
+                          className={`badge ${meta.badgeClass}`}
+                          style={{
+                            fontSize: '0.72rem',
+                            fontWeight: 700,
+                            padding: '0.25rem 0.65rem',
+                            whiteSpace: 'nowrap',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.3rem',
+                          }}
+                        >
+                          <ActionIcon size={12} />
+                          {meta.label}
+                        </span>
+
+                        <span style={{ color: 'var(--text-main)', lineHeight: 1.4, fontWeight: 500 }}>
+                          {log.description}
+                        </span>
+                      </div>
+
+                      {/* Right: Timestamp */}
+                      <div
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.35rem',
+                          color: 'var(--text-muted)',
+                          fontSize: '0.78rem',
+                          fontWeight: 600,
+                          whiteSpace: 'nowrap',
+                          background: 'var(--bg-card)',
+                          padding: '0.25rem 0.6rem',
+                          borderRadius: 'var(--radius-sm)',
+                          border: '1px solid var(--border-color)',
+                        }}
+                      >
+                        <Clock size={12} />
+                        <span>
+                          {new Date(log.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' })} • {new Date(log.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <div style={{ padding: '2.5rem 1rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+                  No system activity logs recorded yet.
+                </div>
+              )}
             </div>
           </div>
         )}
