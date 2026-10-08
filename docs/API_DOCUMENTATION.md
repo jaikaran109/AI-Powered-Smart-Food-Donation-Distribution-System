@@ -1,6 +1,7 @@
 # REST API Documentation
 ## Smart Food Donation Platform
-**Base URL:** `http://localhost:5000/api`
+- **Live Production URL:** `https://smart-food-donation-distribution-system-1.onrender.com/api`
+- **Local Dev URL:** `http://localhost:5000/api`
 
 ---
 

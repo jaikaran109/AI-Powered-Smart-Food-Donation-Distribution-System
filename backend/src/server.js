@@ -72,11 +72,11 @@ if (process.env.NODE_ENV === 'production' && fs.existsSync(frontendDist)) {
 // Centralized Error Handler
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+const HOST = process.env.HOST || '0.0.0.0';
 
-const server = app.listen(PORT, () => {
-  console.log(`🚀 Food Donation Backend Server running on port ${PORT} [${process.env.NODE_ENV || 'development'}]`);
-  console.log(`📡 API Base URL: http://localhost:${PORT}/api`);
+const server = app.listen(PORT, HOST, () => {
+  console.log(`🚀 Food Donation Backend Server running on http://${HOST}:${PORT} [${process.env.NODE_ENV || 'development'}]`);
+  console.log(`📡 API Base URL: http://${HOST}:${PORT}/api`);
 });
 
 // Handle unhandled promise rejections

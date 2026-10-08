@@ -9,12 +9,24 @@ const Notification = require('../models/Notification');
 const Review = require('../models/Review');
 const Setting = require('../models/Setting');
 
+const dns = require('dns');
+
+try {
+  dns.setServers(['8.8.8.8', '8.8.4.4', '1.1.1.1', '1.0.0.1']);
+  if (typeof dns.setDefaultResultOrder === 'function') {
+    dns.setDefaultResultOrder('ipv4first');
+  }
+} catch (e) {}
+
 dotenv.config({ path: __dirname + '/../../.env' });
 
 const seedDatabase = async () => {
   try {
     const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/smart_food_donation';
-    await mongoose.connect(mongoUri);
+    await mongoose.connect(mongoUri, {
+      family: 4,
+      serverSelectionTimeoutMS: 15000,
+    });
     console.log('🌱 Connected to MongoDB for seeding...');
 
     // Clear existing data

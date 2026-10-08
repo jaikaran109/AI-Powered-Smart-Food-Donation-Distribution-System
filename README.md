@@ -8,8 +8,9 @@
 
 | Service | Platform | Link | Status |
 |---|---|---|---|
-| **Frontend Application** | **Vercel** | [![Vercel Deployment](https://img.shields.io/badge/Vercel-Live_App-black?style=for-the-badge&logo=vercel)](https://ai-powered-smart-food-donation-distribution-system.vercel.app) | ![Vercel](https://img.shields.io/badge/Deployed-Active-brightgreen?style=flat-square) |
-| **Backend REST API** | **Render** | [![Render Deployment](https://img.shields.io/badge/Render-API_Server-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://smart-food-donation-backend.onrender.com/api/health) | ![Render](https://img.shields.io/badge/Deployed-Active-brightgreen?style=flat-square) |
+| **Frontend Application** | **Vercel** | [![Vercel Deployment](https://img.shields.io/badge/Vercel-Live_App-black?style=for-the-badge&logo=vercel)](https://ai-powered-smart-food-donation-git-d38894-jaikaran109s-projects.vercel.app) | ![Vercel](https://img.shields.io/badge/Deployed-Active-brightgreen?style=flat-square) |
+| **Backend REST API** | **Render** | [![Render Deployment](https://img.shields.io/badge/Render-API_Server-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://smart-food-donation-distribution-system-1.onrender.com/api/health) | ![Render](https://img.shields.io/badge/Deployed-Active-brightgreen?style=flat-square) |
+| **API Base URL** | **Production** | [`https://smart-food-donation-distribution-system-1.onrender.com/api`](https://smart-food-donation-distribution-system-1.onrender.com/api) | ![API](https://img.shields.io/badge/Status-Online-brightgreen?style=flat-square) |
 | **Source Code** | **GitHub** | [![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/jaikaran109/AI-Powered-Smart-Food-Donation-Distribution-System) | ![Git](https://img.shields.io/badge/Branch-main-blue?style=flat-square) |
 | **Deployment Guide** | **Documentation** | [Step-by-Step Deployment Guide](docs/DEPLOYMENT_GUIDE.md) | ![Docs](https://img.shields.io/badge/Docs-Complete-blue?style=flat-square) |
 
