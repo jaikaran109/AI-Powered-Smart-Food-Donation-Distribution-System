@@ -49,13 +49,25 @@ app.use('/api/analytics', require('./routes/analyticsRoutes'));
 app.use('/api/notifications', require('./routes/notificationRoutes'));
 app.use('/api/reviews', require('./routes/reviewRoutes'));
 
-// 404 Route handler
-app.use((req, res, next) => {
-  res.status(404).json({
-    success: false,
-    message: `API Route not found: ${req.method} ${req.originalUrl}`,
+// Serve static frontend build in production if available
+const path = require('path');
+const fs = require('fs');
+const frontendDist = path.join(__dirname, '../../frontend/dist');
+
+if (process.env.NODE_ENV === 'production' && fs.existsSync(frontendDist)) {
+  app.use(express.static(frontendDist));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendDist, 'index.html'));
   });
-});
+} else {
+  // 404 Route handler
+  app.use((req, res, next) => {
+    res.status(404).json({
+      success: false,
+      message: `API Route not found: ${req.method} ${req.originalUrl}`,
+    });
+  });
+}
 
 // Centralized Error Handler
 app.use(errorHandler);

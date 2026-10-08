@@ -2,7 +2,7 @@
  * Centralized API Client with JWT authorization handling
  */
 
-const API_BASE = '/api';
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 async function request(endpoint, options = {}) {
   const token = localStorage.getItem('sfd_token');
