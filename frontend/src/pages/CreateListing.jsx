@@ -359,7 +359,7 @@ const CreateListing = () => {
                     />
                   </div>
 
-                  <div className="grid-3" style={{ gap: '0.5rem' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))', gap: '0.65rem' }}>
                     <div className="form-group">
                       <label className="form-label">City *</label>
                       <input

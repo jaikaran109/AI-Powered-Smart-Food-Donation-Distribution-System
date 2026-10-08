@@ -243,41 +243,43 @@ const DonorDashboard = () => {
                       alignItems: 'center',
                       justifyContent: 'space-between',
                       flexWrap: 'wrap',
-                      gap: '1rem',
+                      gap: '1.25rem',
+                      padding: '1.25rem 1.5rem',
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', minWidth: '260px', flex: '1 1 300px' }}>
                       <div
                         style={{
-                          width: '44px',
-                          height: '44px',
-                          borderRadius: '10px',
+                          width: '48px',
+                          height: '48px',
+                          borderRadius: '12px',
                           background: 'var(--accent-light)',
                           color: 'var(--accent)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
+                          flexShrink: 0,
                         }}
                       >
-                        <Building2 size={22} />
+                        <Building2 size={24} />
                       </div>
                       <div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                          <h3 style={{ fontSize: '1.05rem', fontWeight: 700 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, margin: 0 }}>
                             {req.receiverOrg || req.receiverName}
                           </h3>
                           <span className="badge badge-amber">Pending Approval</span>
                         </div>
-                        <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginTop: '0.15rem' }}>
+                        <div style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', marginTop: '0.25rem', lineHeight: 1.4 }}>
                           Food: <strong>{req.listingId?.title || 'Surplus Batch'}</strong>
                         </div>
-                        <div style={{ fontSize: '0.78rem', color: 'var(--text-dim)', marginTop: '0.15rem' }}>
+                        <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginTop: '0.2rem', lineHeight: 1.4 }}>
                           Target: {req.targetBeneficiaryGroup} (~{req.estimatedBeneficiariesCount} people) • Transport: {req.transportMode}
                         </div>
                       </div>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexShrink: 0 }}>
                       <Link to={`/tracking/${req._id}`} className="btn btn-secondary btn-sm">
                         <Eye size={14} /> Details
                       </Link>

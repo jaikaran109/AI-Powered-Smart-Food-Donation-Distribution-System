@@ -106,7 +106,7 @@ const ProfilePage = () => {
         </div>
 
         {/* Edit Form */}
-        <form onSubmit={handleSubmit} className="card">
+        <form onSubmit={handleSubmit} className="card" style={{ padding: '2rem' }}>
           <h3 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '1.5rem' }}>
             Profile Details
           </h3>
@@ -193,7 +193,7 @@ const ProfilePage = () => {
             />
           </div>
 
-          <div className="grid-3" style={{ gap: '0.75rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '0.75rem' }}>
             <div className="form-group">
               <label className="form-label">City</label>
               <input

@@ -216,7 +216,7 @@ const PickupTrackingPage = () => {
         {/* Donor & NGO Parties Cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem' }}>
           {/* Donor Card */}
-          <div className="card">
+          <div className="card" style={{ padding: '1.5rem' }}>
             <div style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
               Donor Organization
             </div>
@@ -224,26 +224,26 @@ const PickupTrackingPage = () => {
               <img
                 src={pickup.donorId?.avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${pickup.donorId?.name}`}
                 alt={pickup.donorId?.name}
-                style={{ width: '52px', height: '52px', borderRadius: '50%', objectFit: 'cover' }}
+                style={{ width: '52px', height: '52px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
               />
               <div>
-                <div style={{ fontWeight: 700, fontSize: '1.05rem' }}>
+                <div style={{ fontWeight: 700, fontSize: '1.05rem', color: 'var(--text-main)' }}>
                   {pickup.donorId?.organizationName || pickup.donorId?.name}
                 </div>
-                <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
                   {pickup.donorId?.phone} • {pickup.donorId?.email}
                 </div>
               </div>
             </div>
 
-            <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', background: 'var(--bg-muted)', padding: '0.75rem', borderRadius: 'var(--radius-md)' }}>
+            <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', background: 'var(--bg-muted)', padding: '0.75rem 1rem', borderRadius: 'var(--radius-md)' }}>
               <strong>Pickup Location: </strong>
               {pickup.donorId?.address?.street}, {pickup.donorId?.address?.city} - {pickup.donorId?.address?.pincode}
             </div>
           </div>
 
           {/* NGO Card */}
-          <div className="card">
+          <div className="card" style={{ padding: '1.5rem' }}>
             <div style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
               Assigned NGO / Receiver
             </div>
@@ -251,22 +251,22 @@ const PickupTrackingPage = () => {
               <img
                 src={pickup.receiverId?.avatar || `https://api.dicebear.com/7.x/bottts/svg?seed=${pickup.receiverId?.name}`}
                 alt={pickup.receiverName}
-                style={{ width: '52px', height: '52px', borderRadius: '50%', objectFit: 'cover' }}
+                style={{ width: '52px', height: '52px', borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
               />
               <div>
-                <div style={{ fontWeight: 700, fontSize: '1.05rem', display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                <div style={{ fontWeight: 700, fontSize: '1.05rem', display: 'flex', alignItems: 'center', gap: '0.35rem', color: 'var(--text-main)' }}>
                   {pickup.receiverOrg || pickup.receiverName}
                   {pickup.receiverId?.isVerified && (
                     <ShieldCheck size={16} style={{ color: 'var(--primary-500)' }} />
                   )}
                 </div>
-                <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '0.15rem' }}>
                   {pickup.receiverPhone} • {pickup.receiverId?.email}
                 </div>
               </div>
             </div>
 
-            <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', background: 'var(--bg-muted)', padding: '0.75rem', borderRadius: 'var(--radius-md)' }}>
+            <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', background: 'var(--bg-muted)', padding: '0.75rem 1rem', borderRadius: 'var(--radius-md)' }}>
               <strong>Distribution Target: </strong>
               {pickup.targetBeneficiaryGroup} (~{pickup.estimatedBeneficiariesCount} individuals fed) • Vehicle: {pickup.transportMode}
             </div>

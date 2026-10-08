@@ -405,18 +405,73 @@ const Navbar = () => {
           style={{
             background: 'var(--bg-card)',
             borderTop: '1px solid var(--border-subtle)',
-            padding: '1rem 1.5rem',
+            padding: '1.25rem 1.5rem',
             display: 'flex',
             flexDirection: 'column',
-            gap: '0.75rem',
+            gap: '0.85rem',
           }}
         >
-          <Link to="/listings" onClick={() => setMobileMenuOpen(false)} style={{ fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-            <Layers size={16} /> Explore Food Listings
+          <Link to="/listings" onClick={() => setMobileMenuOpen(false)} style={{ fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-main)' }}>
+            <Layers size={16} style={{ color: 'var(--primary)' }} /> Explore Food Listings
           </Link>
-          <Link to="/impact" onClick={() => setMobileMenuOpen(false)} style={{ fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-            <BarChart3 size={16} /> Community Impact
+          <Link to="/impact" onClick={() => setMobileMenuOpen(false)} style={{ fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-main)' }}>
+            <BarChart3 size={16} style={{ color: 'var(--accent)' }} /> Community Impact
           </Link>
+
+          {isAuthenticated ? (
+            <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+              {role === 'donor' && (
+                <Link to="/donor-dashboard" onClick={() => setMobileMenuOpen(false)} style={{ fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)' }}>
+                  <Heart size={16} /> Donor Dashboard
+                </Link>
+              )}
+              {role === 'receiver' && (
+                <Link to="/receiver-dashboard" onClick={() => setMobileMenuOpen(false)} style={{ fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent)' }}>
+                  <Truck size={16} /> NGO Dashboard
+                </Link>
+              )}
+              {role === 'admin' && (
+                <Link to="/admin-dashboard" onClick={() => setMobileMenuOpen(false)} style={{ fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--rose)' }}>
+                  <ShieldCheck size={16} /> Admin Control Tower
+                </Link>
+              )}
+              <Link to="/profile" onClick={() => setMobileMenuOpen(false)} style={{ fontWeight: 600, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}>
+                <User size={16} /> Profile & Settings
+              </Link>
+              <button
+                onClick={() => {
+                  logout();
+                  setMobileMenuOpen(false);
+                  navigate('/');
+                }}
+                style={{
+                  fontWeight: 600,
+                  fontSize: '0.9rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  color: 'var(--rose)',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  padding: 0,
+                  marginTop: '0.25rem',
+                }}
+              >
+                <LogOut size={16} /> Sign Out
+              </button>
+            </div>
+          ) : (
+            <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: '0.75rem', display: 'flex', gap: '0.5rem' }}>
+              <Link to="/login" onClick={() => setMobileMenuOpen(false)} className="btn btn-secondary btn-sm" style={{ flex: 1 }}>
+                Sign In
+              </Link>
+              <Link to="/register" onClick={() => setMobileMenuOpen(false)} className="btn btn-primary btn-sm" style={{ flex: 1 }}>
+                Register
+              </Link>
+            </div>
+          )}
         </div>
       )}
 
